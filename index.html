@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>G Anirudh — Software Engineer</title>
+<title>G Anirudh — Aspiring Software Engineer</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -238,31 +238,52 @@
     animation: fadeScale 1s forwards 0.6s;
     position: relative;
   }
+  /* Rotating decorative background ring (behind the static photo) */
   .avatar-outer-ring {
     width: 340px; height: 340px;
     border-radius: 50%;
     border: 1px solid rgba(0,229,255,0.2);
-    display: flex; align-items: center; justify-content: center;
-    position: relative;
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
     animation: spinSlow 20s linear infinite;
+    z-index: 0;
+    pointer-events: none;
   }
   .avatar-outer-ring::before {
     content: '';
-    position: absolute; inset: -8px;
+    position: absolute; inset: -16px;
     border-radius: 50%;
-    border: 1px dashed rgba(0,229,255,0.1);
+    border: 1px dashed rgba(0,229,255,0.12);
+  }
+  /* Counter-rotating dashed ring */
+  .avatar-spin-reverse {
+    width: 388px; height: 388px;
+    border-radius: 50%;
+    border: 1px dashed rgba(123,94,167,0.18);
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
     animation: spinSlow 30s linear infinite reverse;
+    z-index: 0;
+    pointer-events: none;
   }
   .avatar-dot {
     width: 8px; height: 8px;
     background: var(--neon);
     border-radius: 50%;
     position: absolute;
-    top: 10px; left: 50%;
+    top: -4px; left: 50%;
     transform: translateX(-50%);
     box-shadow: 0 0 10px var(--neon);
   }
-  @keyframes spinSlow { to { transform: rotate(360deg); } }
+  .avatar-dot.dot2 {
+    background: var(--neon3);
+    box-shadow: 0 0 10px var(--neon3);
+    top: auto; bottom: -4px;
+  }
+  @keyframes spinSlow { to { transform: translate(-50%, -50%) rotate(360deg); } }
+  /* Static photo — sits on top of the rotating rings */
   .avatar-inner {
     width: 280px; height: 280px;
     border-radius: 50%;
@@ -270,6 +291,7 @@
     border: 2px solid rgba(0,229,255,0.3);
     background: var(--surface);
     position: relative;
+    z-index: 1;
     box-shadow: 0 0 40px rgba(0,229,255,0.2), inset 0 0 40px rgba(0,0,0,0.5);
   }
   .avatar-inner img {
@@ -736,6 +758,7 @@
     /* Avatar */
     .hero-avatar-wrap { order: -1; }
     .avatar-outer-ring { width: 220px; height: 220px; }
+    .avatar-spin-reverse { width: 252px; height: 252px; }
     .avatar-inner { width: 178px; height: 178px; }
     .hero-stats { display: none; }
 
@@ -808,12 +831,16 @@
       </div>
     </div>
     <div class="hero-avatar-wrap">
+      <!-- Rotating background rings (decorative, behind photo) -->
+      <div class="avatar-spin-reverse"></div>
       <div class="avatar-outer-ring">
         <div class="avatar-dot"></div>
-        <div class="avatar-inner">
-          <!-- SWAP: replace the div below with <img src="your-photo.jpg" alt="G Anirudh"> -->
-          <img src="photo.png" alt="G Anirudh">
-        </div>
+        <div class="avatar-dot dot2"></div>
+      </div>
+      <!-- Static photo -->
+      <div class="avatar-inner">
+        <!-- SWAP: replace the img below with <img src="your-photo.jpg" alt="G Anirudh"> -->
+        <img src="photo.png" alt="G Anirudh">
       </div>
       <div class="hero-stats">
         <div class="stat-chip">CGPA: 8.35 / 10</div>
