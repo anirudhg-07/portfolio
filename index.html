@@ -4,6 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>G Anirudh — Aspiring Software Engineer</title>
+<meta name="description" content="G Anirudh — Software Development Engineer & Full-Stack Developer. B.Tech CSE @ SRM, building multi-agent AI systems, full-stack platforms, and computer vision projects. Chennai, India.">
+<meta name="author" content="G Anirudh">
+<meta name="keywords" content="G Anirudh, Software Engineer, Full-Stack Developer, SRM, Multi-Agent AI, React, Python, Portfolio, Chennai">
+
+<!-- Open Graph (LinkedIn, WhatsApp, Discord, Facebook) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="G Anirudh — Software Development Engineer">
+<meta property="og:description" content="B.Tech CSE @ SRM · Building intelligent systems with multi-agent AI, full-stack platforms, and computer vision.">
+<meta property="og:image" content="https://anirudhg-07.github.io/portfolio/photo.png">
+<meta property="og:url" content="https://anirudhg-07.github.io/portfolio/">
+
+<!-- Twitter / X card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="G Anirudh — Software Development Engineer">
+<meta name="twitter:description" content="B.Tech CSE @ SRM · Building intelligent systems with multi-agent AI, full-stack platforms, and computer vision.">
+<meta name="twitter:image" content="https://anirudhg-07.github.io/portfolio/photo.png">
+
+<!-- Favicon: inline SVG GA monogram, no extra file needed -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23050a14'/><text x='50' y='70' font-family='monospace' font-size='46' font-weight='700' fill='%2300e5ff' text-anchor='middle'>GA</text></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -98,6 +117,8 @@
   }
   .nav-links a:hover { color: var(--neon); }
   .nav-links a:hover::after { transform: scaleX(1); }
+  .nav-links a.active { color: var(--neon); }
+  .nav-links a.active::after { transform: scaleX(1); }
 
   /* Hero */
   #hero {
@@ -293,6 +314,11 @@
     position: relative;
     z-index: 1;
     box-shadow: 0 0 40px rgba(0,229,255,0.2), inset 0 0 40px rgba(0,0,0,0.5);
+    animation: avatarPulse 4s ease-in-out infinite;
+  }
+  @keyframes avatarPulse {
+    0%,100% { box-shadow: 0 0 30px rgba(0,229,255,0.18), inset 0 0 40px rgba(0,0,0,0.5); }
+    50% { box-shadow: 0 0 55px rgba(0,229,255,0.38), inset 0 0 40px rgba(0,0,0,0.5); }
   }
   .avatar-inner img {
     width: 100%; height: 100%;
@@ -442,7 +468,9 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
     gap: 2rem;
+    perspective: 1200px;
   }
+  .project-card.tilting { transition: box-shadow 0.4s, border-color 0.4s; }
   .project-card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -719,6 +747,37 @@
   }
   @keyframes blink { 50% { opacity: 0; } }
 
+  /* Keep anchored sections clear of the fixed nav */
+  section[id] { scroll-margin-top: 100px; }
+
+  /* Back-to-top button */
+  #back-to-top {
+    position: fixed; bottom: 2rem; right: 2rem;
+    width: 46px; height: 46px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(15,31,56,0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border2);
+    color: var(--neon);
+    font-size: 1.2rem; line-height: 1;
+    border-radius: 50%;
+    opacity: 0; visibility: hidden; transform: translateY(12px);
+    transition: opacity 0.3s, transform 0.3s, visibility 0.3s, background 0.3s, box-shadow 0.3s;
+    z-index: 150;
+  }
+  #back-to-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
+  #back-to-top:hover { background: var(--neon); color: var(--bg); box-shadow: var(--glow); }
+
+  /* Respect users who prefer reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
   @media (max-width: 900px) {
     /* Nav */
     nav { padding: 1rem 1.25rem; }
@@ -784,6 +843,9 @@
     /* Contact */
     .contact-grid { grid-template-columns: 1fr; }
     .contact-item { padding: 1rem 1.25rem; }
+
+    /* Back-to-top */
+    #back-to-top { bottom: 1.25rem; right: 1.25rem; width: 42px; height: 42px; }
   }
 
   @media (max-width: 400px) {
@@ -821,7 +883,7 @@
       <h1 class="hero-name">
         <span>G Anirudh</span>
       </h1>
-      <p class="hero-title">Software Development Engineer · Full-Stack</p>
+      <p class="hero-title"><span id="typed"></span><span class="blink">_</span></p>
       <p class="hero-desc">
         B.Tech CSE @ SRM Institute · Building intelligent systems with multi-agent AI, full-stack platforms, and computer vision. Chennai, India.
       </p>
@@ -843,8 +905,8 @@
         <img src="photo.png" alt="G Anirudh">
       </div>
       <div class="hero-stats">
-        <div class="stat-chip">CGPA: 8.35 / 10</div>
-        <div class="stat-chip">4 Projects Shipped</div>
+        <div class="stat-chip">CGPA: <span data-count="8.35" data-decimals="2">0</span> / 10</div>
+        <div class="stat-chip"><span data-count="4">0</span> Projects Shipped</div>
         <div class="stat-chip">2024 – 2028 Batch</div>
       </div>
     </div>
@@ -1143,6 +1205,13 @@
             <div class="contact-value">anirudhg-07</div>
           </div>
         </a>
+        <a href="https://www.instagram.com/dont_see____my_profile__/?hl=en" target="_blank" class="contact-item">
+          <span class="contact-icon">📸</span>
+          <div class="contact-info">
+            <div class="contact-label">Instagram</div>
+            <div class="contact-value">dont_see____my_profile__</div>
+          </div>
+        </a>
       </div>
 
       <!-- Resume download -->
@@ -1150,8 +1219,6 @@
         <a href="G_Anirudh_ResumE.pdf" download class="resume-btn">
           ↓ Download Resume
         </a>
-        <p style="margin-top:1rem;font-family:'Space Mono',monospace;font-size:0.7rem;color:rgba(139,167,204,0.5)">
-        </p>
       </div>
     </section>
   </div>
@@ -1159,8 +1226,11 @@
 
 <!-- FOOTER -->
 <footer>
-  <p>Designed & Built by <span>G Anirudh</span> · Chennai, India · 2025</p>
+  <p>Designed & Built by <span>G Anirudh</span> · Chennai, India · <span id="year">2025</span></p>
 </footer>
+
+<!-- Back to top -->
+<button id="back-to-top" aria-label="Back to top">↑</button>
 
 <script>
 // Cursor - desktop only
@@ -1215,7 +1285,91 @@ window.addEventListener('scroll', () => {
   else nav.style.padding = isMobile ? '1rem 1.25rem' : '1.2rem 4rem';
 });
 
-// All links already have target="_blank" or correct href — no extra handler needed
+// Honor users who prefer reduced motion
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// Typewriter hero title
+(function () {
+  const el = document.getElementById('typed');
+  if (!el) return;
+  const text = 'Software Development Engineer · Full-Stack';
+  if (reduceMotion) { el.textContent = text; return; }
+  let i = 0;
+  (function type() {
+    el.textContent = text.slice(0, i);
+    if (i++ <= text.length) setTimeout(type, 55);
+  })();
+})();
+
+// Scrollspy — highlight active nav link
+const navLinks = document.querySelectorAll('.nav-links a');
+const spyTargets = ['skills', 'projects', 'achievements', 'contact']
+  .map(id => document.getElementById(id))
+  .filter(Boolean);
+const spyObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+    }
+  });
+}, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+spyTargets.forEach(t => spyObserver.observe(t));
+
+// Animated number counters
+function animateCount(el) {
+  const target = parseFloat(el.dataset.count);
+  const decimals = parseInt(el.dataset.decimals || '0', 10);
+  if (reduceMotion) { el.textContent = target.toFixed(decimals); return; }
+  const dur = 1400;
+  let start = null;
+  requestAnimationFrame(function step(ts) {
+    if (start === null) start = ts;
+    const p = Math.min((ts - start) / dur, 1);
+    const eased = 1 - Math.pow(1 - p, 3);
+    el.textContent = (target * eased).toFixed(decimals);
+    if (p < 1) requestAnimationFrame(step);
+    else el.textContent = target.toFixed(decimals);
+  });
+}
+const countObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { animateCount(e.target); countObserver.unobserve(e.target); }
+  });
+}, { threshold: 0.6 });
+document.querySelectorAll('[data-count]').forEach(el => countObserver.observe(el));
+
+// Tilt project cards toward cursor (desktop only)
+if (!isTouchDevice && !reduceMotion) {
+  document.querySelectorAll('.project-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width - 0.5;
+      const py = (e.clientY - r.top) / r.height - 0.5;
+      card.classList.add('tilting');
+      card.style.transform =
+        `translateY(-6px) rotateX(${(-py * 6).toFixed(2)}deg) rotateY(${(px * 6).toFixed(2)}deg)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.classList.remove('tilting');
+      card.style.transform = '';
+    });
+  });
+}
+
+// Auto-update footer year
+const yearEl = document.getElementById('year');
+if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+// Back-to-top button
+const backToTop = document.getElementById('back-to-top');
+if (backToTop) {
+  window.addEventListener('scroll', () => {
+    backToTop.classList.toggle('show', window.scrollY > 600);
+  });
+  backToTop.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+  });
+}
 </script>
 
 </body>
